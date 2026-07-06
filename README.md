@@ -93,9 +93,9 @@ Repeat for any other account – they all run side‑by‑side, completely isola
 
 ## 🏗️ Architecture – The N→N Model
 
-Every Electron/Chromium app (like Codex) honours the `--user-data-dir` command‑line flag. When you supply a unique folder path, **all local state** – authentication tokens, preferences, cached files – lives exclusively in that directory.
+Every Electron/Chromium app (like Codex) honours the `--user-data-dir` command‑line flag. When you supply a unique folder path, **all local state** – authentication tokens, preferences, cached fil[...]
 
-This script takes **one** installed copy of `Codex.exe` and launches **N** independent processes, each pointed at a distinct `--user-data-dir`. The result is a clean **N executables → N data directories** mapping.
+This script takes **one** installed copy of `Codex.exe` and launches **N** independent processes, each pointed at a distinct `--user-data-dir`. The result is a clean **N executables → N data directo[...]
 
 ```mermaid
 flowchart TD
@@ -131,21 +131,22 @@ There are no symlinks, virtual machines, or container engines – just the appli
 
 
 
-📋 Prerequisites
+## 📋 Prerequisites
 
-Component Minimum Recommended
-Windows Windows 10 (build 19041+) Windows 11 22H2+
-Codex Microsoft Store or winget Latest stable
-Permissions Standard user Read access to WindowsApps*
-Disk Space ~500 MB per extra profile 2+ GB free on system drive
+| Component   | Minimum                      | Recommended        |
+|-------------|------------------------------|--------------------|
+| Windows     | Windows 10 (build 19041+)    | Windows 11 22H2+   |
+| Codex       | Microsoft Store or winget    | Latest stable      |
+| Permissions | Standard user                | Read access to WindowsApps* |
+| Disk Space  | ~500 MB per extra profile    | 2+ GB free on system drive |
 
 * The script reads the directory listing of WindowsApps to auto‑detect the latest Codex version. Windows allows this by default for all users.
 
 ---
 
-💾 Installation
+## 💾 Installation
 
-Option 1: Clone (Git)
+### Option 1: Clone (Git)
 
 ```bash
 git clone https://github.com/ali-hey-0/Codex-Account-Selector.git
@@ -154,16 +155,16 @@ cd Codex-Account-Selector
 
 Then double‑click ac-codex.bat.
 
-Option 2: Download the Raw File
+### Option 2: Download the Raw File
 
 1. Visit the latest release page.
 2. Download ac-codex.bat and save it anywhere (Desktop, Documents, even a USB stick).
 
-🔧 Optional: Create a shortcut to ac-codex.bat, set a nice icon, and pin it to your taskbar for one‑click access.
+🔧 **Optional:** Create a shortcut to ac-codex.bat, set a nice icon, and pin it to your taskbar for one‑click access.
 
 ---
 
-🖥️ Usage
+## 🖥️ Usage
 
 Launch the script by double‑clicking or via command line:
 
@@ -186,19 +187,19 @@ You'll see:
 Enter your choice (1-5):
 ```
 
-· Type the number of the desired account and press Enter.
-· A new Codex window will open. The first launch creates the profile folder (may take a few seconds longer).
-· To launch additional accounts, keep the menu open and choose another number. Each will open a completely independent window.
+- Type the number of the desired account and press Enter.
+- A new Codex window will open. The first launch creates the profile folder (may take a few seconds longer).
+- To launch additional accounts, keep the menu open and choose another number. Each will open a completely independent window.
 
-🧪 Tip: You can log into different Codex / OpenAI accounts in each window, or use the same account with different workspaces – it’s up to you.
+🧪 **Tip:** You can log into different Codex / OpenAI accounts in each window, or use the same account with different workspaces – it's up to you.
 
 ---
 
-🔧 Customization
+## 🔧 Customization
 
 Open ac-codex.bat with any text editor (Notepad, VS Code, etc.). The variables at the top control all behaviour.
 
-Adding More Accounts
+### Adding More Accounts
 
 Copy the menu entry pattern. For a 5th account, add:
 
@@ -208,7 +209,7 @@ if "%choice%"=="5" set "ACC_NAME=Acc5" & goto launch
 
 Update the menu display to reflect the new options.
 
-Changing Profile Storage Path
+### Changing Profile Storage Path
 
 By default, profiles are stored under %USERPROFILE%\CodexProfiles. To use another drive (e.g., D:\MyProfiles), modify:
 
@@ -222,7 +223,7 @@ You can also use an environment variable for portability:
 set "CODEX_HOME=%MY_CUSTOM_PATH%\%ACC_NAME%"
 ```
 
-Using a Non‑Standard Installation
+### Using a Non‑Standard Installation
 
 If you installed Codex outside WindowsApps (portable, custom folder), simply set the full path:
 
@@ -232,19 +233,20 @@ set "APP_DIR=C:\PortableApps\Codex\Codex.exe"
 
 The script will skip auto‑detection when APP_DIR is already defined.
 
-Environment Variables
+### Environment Variables
 
 For advanced automation, you can set the following before running the script:
 
-Variable Description Default
-CODEX_PROFILES Root folder for all account profiles %USERPROFILE%\CodexProfiles
-CODEX_EXE Full path to Codex.exe (auto‑detected)
+| Variable       | Description                              | Default                      |
+|----------------|------------------------------------------|------------------------------|
+| CODEX_PROFILES | Root folder for all account profiles      | %USERPROFILE%\CodexProfiles  |
+| CODEX_EXE      | Full path to Codex.exe                   | (auto‑detected)              |
 
 If these variables exist, the script will use them, overriding its internal defaults.
 
 ---
 
-🗂️ File Structure
+## 🗂️ File Structure
 
 ```
 Codex-Account-Selector/
@@ -270,30 +272,31 @@ The script creates profile directories dynamically:
 
 ---
 
-🔐 Security & Isolation
+## 🔐 Security & Isolation
 
-· Each --user-data-dir folder is a fully self‑contained Chromium profile.
-· Cookies, session tokens, and localStorage never cross between accounts.
-· No registry keys are modified; no system‑wide changes occur.
-· You can delete a profile folder at any time – all traces of that account vanish.
-· For extra security, consider storing profiles on an encrypted drive (e.g., BitLocker, VeraCrypt). The script works flawlessly with those paths.
+- Each --user-data-dir folder is a fully self‑contained Chromium profile.
+- Cookies, session tokens, and localStorage never cross between accounts.
+- No registry keys are modified; no system‑wide changes occur.
+- You can delete a profile folder at any time – all traces of that account vanish.
+- For extra security, consider storing profiles on an encrypted drive (e.g., BitLocker, VeraCrypt). The script works flawlessly with those paths.
 
 ---
 
-🆚 Comparison with Alternatives
+## 🆚 Comparison with Alternatives
 
-Approach Isolation Resource Usage Ease of Use Reliability
---user-data-dir (this tool) ✅ Complete 🟢 Minimal ⭐⭐⭐⭐⭐ ✅ Built-in
-Multiple Windows user accounts ✅ Complete 🔴 High (full OS overhead) ⭐⭐ ⚠️ Complex
-Sandboxie / Firejail ⚠️ Partial 🟡 Moderate ⭐⭐⭐ ❌ External dependency
-Virtual Machines ✅ Complete 🔴 Very High ⭐ ✅ but overkill
-Container (Docker) ✅ Complete 🟡 Moderate ⭐⭐ ❌ Not native on Windows
+| Approach                                  | Isolation         | Resource Usage    | Ease of Use       | Reliability          |
+|-------------------------------------------|-------------------|-------------------|-------------------|----------------------|
+| --user-data-dir (this tool)               | ✅ Complete       | 🟢 Minimal        | ⭐⭐⭐⭐⭐    | ✅ Built-in          |
+| Multiple Windows user accounts            | ✅ Complete       | 🔴 High (full OS overhead) | ⭐⭐ | ⚠️ Complex |
+| Sandboxie / Firejail                      | ⚠️ Partial        | 🟡 Moderate       | ⭐⭐⭐         | ❌ External dependency |
+| Virtual Machines                          | ✅ Complete       | 🔴 Very High      | ⭐              | ✅ but overkill      |
+| Container (Docker)                        | ✅ Complete       | 🟡 Moderate       | ⭐⭐            | ❌ Not native on Windows |
 
 The --user-data-dir approach is the only method that delivers perfect isolation without adding complexity, bloat, or external dependencies.
 
 ---
 
-❓ FAQ
+## ❓ FAQ
 
 <details>
 <summary><strong>Can I run more than four accounts?</strong></summary>
@@ -312,7 +315,7 @@ Yes. Simply copy the profile folder (e.g., `Acc1`) to the same relative path on 
 
 <details>
 <summary><strong>Why does the script search for <code>OpenAI.Codex_*_x64__2p2nqsd0c76g0</code>?</strong></summary>
-That’s the official Microsoft Store package name. The wildcard `*` handles version updates so the script always finds the current installation.
+That's the official Microsoft Store package name. The wildcard `*` handles version updates so the script always finds the current installation.
 </details>
 
 <details>
@@ -327,58 +330,62 @@ Yes. Each instance is a separate process with its own window. Windows treats the
 
 ---
 
-🛠️ Troubleshooting
+## 🛠️ Troubleshooting
 
 <details>
 <summary><strong>"Error: Codex installation directory not found."</strong></summary>
 
-Cause: The script cannot locate the Codex folder inside WindowsApps.
-Fix:
+**Cause:** The script cannot locate the Codex folder inside WindowsApps.
 
-· Make sure Codex is installed via Microsoft Store or winget.
-· If installed elsewhere, manually set APP_DIR in the script.
-· Ensure your user has read access to C:\Program Files\WindowsApps. (Open the folder once via File Explorer to trigger the permission prompt.)
+**Fix:**
+
+- Make sure Codex is installed via Microsoft Store or winget.
+- If installed elsewhere, manually set APP_DIR in the script.
+- Ensure your user has read access to C:\Program Files\WindowsApps. (Open the folder once via File Explorer to trigger the permission prompt.)
 
 </details>
 
 <details>
 <summary><strong>"Access is denied" when launching</strong></summary>
 
-Cause: Windows may block the script or your account lacks execute rights.
-Fix:
+**Cause:** Windows may block the script or your account lacks execute rights.
 
-· Right‑click ac-codex.bat → Properties → check Unblock if the option exists.
-· Temporarily disable aggressive antivirus if it flags the script.
-· Try running the script from a folder where you have full control (e.g., Desktop).
+**Fix:**
+
+- Right‑click ac-codex.bat → Properties → check Unblock if the option exists.
+- Temporarily disable aggressive antivirus if it flags the script.
+- Try running the script from a folder where you have full control (e.g., Desktop).
 
 </details>
 
 <details>
 <summary><strong>Codex windows take a long time to open</strong></summary>
 
-Cause: First‑run profile generation (caches, local storage) can be slow on HDDs.
-Fix: Wait up to 2 minutes. Subsequent launches are almost instant. If it persists, delete the profile folder and let it recreate.
+**Cause:** First‑run profile generation (caches, local storage) can be slow on HDDs.
+
+**Fix:** Wait up to 2 minutes. Subsequent launches are almost instant. If it persists, delete the profile folder and let it recreate.
 
 </details>
 
 <details>
 <summary><strong>I get a blank/white window</strong></summary>
 
-Cause: GPU acceleration or corrupted profile.
-Fix: Add --disable-gpu to the launch command in the script, or delete the profile folder.
+**Cause:** GPU acceleration or corrupted profile.
+
+**Fix:** Add --disable-gpu to the launch command in the script, or delete the profile folder.
 
 </details>
 
 ---
 
-📄 License
+## 📄 License
 
 Distributed under the MIT License. See LICENSE for more information.
 Feel free to use, modify, and share this project freely.
 
 ---
 
-🤝 Contributing
+## 🤝 Contributing
 
 Contributions are what make the open‑source community so incredible. Any improvements you make are greatly appreciated.
 
@@ -392,15 +399,15 @@ Please keep the script lightweight and avoid external dependencies unless absolu
 
 ---
 
-💬 Support
+## 💬 Support
 
-· Bug reports & feature requests → GitHub Issues
-· Community discussions → GitHub Discussions
-· Direct contact → aliheydari1381doc@gmail.com
+- Bug reports & feature requests → GitHub Issues
+- Community discussions → GitHub Discussions
+- Direct contact → aliheydari1381doc@gmail.com
 
 ---
 
-⭐ Show Your Support
+## ⭐ Show Your Support
 
 If this project saved you time or made your life easier, give it a Star ⭐ on GitHub! It motivates us to keep improving.
 
@@ -410,22 +417,20 @@ If this project saved you time or made your life easier, give it a Star ⭐ on G
 
 ---
 
-✒️ Author’s Opinion
+## ✒️ Author's Opinion
 
-When I first needed two Codex accounts open simultaneously, I looked at the obvious solutions: virtual machines, separate Windows users, third‑party sandboxing tools. Every single one of them felt like bringing a rocket launcher to open a can of soda.
+When I first needed two Codex accounts open simultaneously, I looked at the obvious solutions: virtual machines, separate Windows users, third‑party sandboxing tools. Every single one of them felt like overkill.
 
-Then I remembered: Chromium apps have a native --user-data-dir flag. It’s not a workaround – it’s an intended feature that Electron and Chrome developers use every day for testing and multi‑profile setups. Wrapping it in a friendly menu was simply the missing link between a raw CLI flag and a pleasant daily driver.
+Then I remembered: Chromium apps have a native --user-data-dir flag. It's not a workaround – it's an intended feature that Electron and Chrome developers use every day for testing and multi‑profile scenarios.
 
-Here’s why I believe this is the most elegant, zero‑bloat solution ever:
+Here's why I believe this is the most elegant, zero‑bloat solution ever:
 
-· 🧬 Native & future‑proof – No hooks, no patches, no reliance on undocumented behaviour. It will work as long as Codex is an Electron app.
-· 🚫 True zero‑bloat – The entire “tool” is a single batch file smaller than many icons. Contrast that with a multi‑gigabyte VM image.
-· 🔐 Perfect isolation by design – Each profile is a folder. You can back it up, encrypt it, or nuke it without touching anything else.
-· 🧰 Hackable to the core – Advanced users can extend it with custom parameters, pre‑configured workspaces, or launch scripts without ever touching the original installation.
-· 🏎️ Resource‑friendly – Running 4 Codex instances uses only marginally more RAM than 1, because the core runtime is shared. Compare that to 4 VMs.
+- 🧬 **Native & future‑proof** – No hooks, no patches, no reliance on undocumented behaviour. It will work as long as Codex is an Electron app.
+- 🚫 **True zero‑bloat** – The entire "tool" is a single batch file smaller than many icons. Contrast that with a multi‑gigabyte VM image.
+- 🔐 **Perfect isolation by design** – Each profile is a folder. You can back it up, encrypt it, or nuke it without touching anything else.
+- 🧰 **Hackable to the core** – Advanced users can extend it with custom parameters, pre‑configured workspaces, or launch scripts without ever touching the original installation.
+- 🏎️ **Resource‑friendly** – Running 4 Codex instances uses only marginally more RAM than 1, because the core runtime is shared. Compare that to 4 VMs.
 
-I wrote this script because I needed it myself. Seeing others adopt it and adapt it for their workflows – that’s the true spirit of open source. To the maintainer, ali-hey-0: you’ve turned a command‑line detail into a polished tool that makes a real difference. Keep pushing the boundaries of simplicity. As the community grows, don’t forget: the best software often fits in a single file.
+I wrote this script because I needed it myself. Seeing others adopt it and adapt it for their workflows – that's the true spirit of open source. To the maintainer, ali-hey-0: you've turned a common problem into an elegant solution.
 
 Happy coding – one instance at a time. 🚀
-
-```
