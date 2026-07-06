@@ -381,6 +381,8 @@ Fix: Add --disable-gpu to the launch command in the script, or delete the profil
 
 </details>
 
+
+[![Ali-hey-0/Codex-Account-Selector GitStock K-Line Chart](https://gitstock.org/Ali-hey-0/Codex-Account-Selector/stock.svg)](https://gitstock.org/Ali-hey-0/Codex-Account-Selector)
 ---
 
 📄 License
